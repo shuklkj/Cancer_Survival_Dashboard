@@ -1,4 +1,4 @@
-# Cancer Analysis Project
+# Interactive Cancer Analysis Project
 
 ## Description
 
