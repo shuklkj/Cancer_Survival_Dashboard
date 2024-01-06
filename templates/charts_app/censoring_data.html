@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Censoring Information Chart</title>
+    <!-- Link to Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Censoring Information</h1>
+
+    <!-- Container for the pie chart -->
+    <div style="width: 50%; max-width: 400px; margin: auto;">
+        <canvas id="censoringChart"></canvas>
+    </div>
+
+    <script>
+        // Pass the data from Django view to JavaScript
+        const chartData = JSON.parse('{{ chart_data|safe }}');
+        
+        // Setup Chart.js pie chart
+        const ctx = document.getElementById('censoringChart').getContext('2d');
+        const censoringChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: chartData.labels, // Using labels from chartData
+                datasets: [{
+                    label: 'Censoring Information',
+                    data: chartData.data, // Using data from chartData
+                    backgroundColor: ['#ff9999', '#66b3ff'], // Example colors
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                aspectRatio: 1, // Adjust as needed
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Censoring Information'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cancer Types Chart</title>
+    <!-- Link to Chart.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Add any additional CSS links here -->
+</head>
+<body>
+    <!-- <h1>Cancer Types</h1>
+    <ul>
+        {% for cancer_type in cancer_types %}
+            <li>{{ cancer_type }}</li>
+        {% endfor %}
+    </ul> -->
+
+    <!-- Container for the pie chart -->
+    <h2>Cancer Types Distribution</h2>
+    <div style="width: 50%; max-width: 400px; margin: auto;"> <!-- Adjust width as needed -->
+        <canvas id="cancerTypesChart"></canvas>
+    </div>
+
+    <script>
+        // Pass the data from Django view to JavaScript
+        const chartData = JSON.parse('{{ chart_data|safe }}');
+
+        // Prepare the labels and data for the chart
+        const labels = chartData.map(data => data[0]);
+        const data = chartData.map(data => data[1]);
+
+        // Setup Chart.js pie chart
+        const ctx = document.getElementById('cancerTypesChart').getContext('2d');
+        const cancerTypesChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Cancer Types',
+                    data: data,
+                    backgroundColor: [
+                        'red', 'blue', 'green', 'yellow', 'purple', 'orange', // ...etc
+                    ],
+                    hoverOffset: 4
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: true, // Maintain the aspect ratio
+                aspectRatio: 1, // Set to 1 for a square canvas, or adjust as needed
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    },
+                    title: {
+                        display: true,
+                        text: 'Cancer Types Distribution'
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
